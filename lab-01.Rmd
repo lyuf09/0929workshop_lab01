@@ -227,7 +227,7 @@ All values in the output are `NA`!
 _What does `NA` stand for and why are you getting this as your answer to the previous question._
 
 **Write your answer here**
-
+Not available, getting this because there are NAs in n_2021 data so couldn't be calculated
 
 
 
@@ -236,7 +236,12 @@ _What does `NA` stand for and why are you getting this as your answer to the pre
 _Look at the help pages for the `mean()` and `median()` commands to see what the input argument `na.rm` does. Edit your code from exercise h so that it computes the summary statistics where data is available._
 
 **Write your answer here**
-
+visitors %>%
++   summarise(mean_2021 = mean(n_2021, na.rm = TRUE), med_2021 = median(n_2021, na.rm = TRUE))
+# A tibble: 1 × 2
+  mean_2021 med_2021
+      <dbl>    <dbl>
+1   232431.   129829
 
 
 
@@ -252,14 +257,13 @@ visitors %>%
     med_2022 = median(n_2022)
   )
 ```
+Inside
 
 ### Exercise k.
 
 _Observe in question 6 that the mean statistics across all settings are much larger than the corresponding median statistics. Discuss in your group what this suggests about the data._
 
-**Write your answer here**
-
-
+shows that the data has a positively skewed distribution
 
 
 ## Question 8
@@ -282,7 +286,13 @@ visitors_with_nations %>%
   summarise(
     IQR_2022 = IQR(n_2022)
   )
-```
+``` 
+nation           IQR_2022
+  <chr>               <dbl>
+1 England           350362.
+2 Northern Ireland  311046 
+3 Scotland          127986 
+4 Wales             103368.
 
 ### Exercise l.
 
@@ -294,6 +304,16 @@ _How many tourist attractions are there in each of the 4 nations? From this, dis
 #  ______(_______)
 ```
 
+visitors_with_nations %>% 
+  group_by(nation) %>%
+  count()
+  
+  nation               n
+  <chr>            <int>
+1 England            240
+2 Northern Ireland     9
+3 Scotland            97
+4 Wales                2
 
 
 # Challenging Exercises

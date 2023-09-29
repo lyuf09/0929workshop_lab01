@@ -25,7 +25,7 @@ visitors <- read_csv("data/UK-visitor-numbers.csv")
 ## Question 1
 
 _How many tourist attractions are there in the data set?_
-
+348
 ```{r Q1}
 visitors %>% count()
 ```
@@ -58,7 +58,12 @@ _What are the variable data types?_
 ```{r Q2_part1}
 class(visitors$n_2022)
 ```
-
+attraction=character
+n_2021=numeric
+n_2022=numeric
+admission=character
+setting=character
+region=character
 ```{r Q2_part2}
 visitors %>% summarise_all(class)
 ```
@@ -72,6 +77,7 @@ _Which attraction had the most number of visitors in 2022?_
 ```{r Q3}
 visitors %>% arrange(desc(n_2022))
 ```
+1 The Crown Estate, Windsor Great Park
 
 ### Exercise c.
 
@@ -81,11 +87,25 @@ _What are the top 10 most visited attractions in 2021?_
 #  arrange(____(____)) %>%
 #  head(n = ____)
 ```
+visitors %>% arrange(desc(n_2021)) %>% head(n = 10)
 
+   attraction                                 n_2021  n_2022 admission setting region    
+   <chr>                                       <dbl>   <dbl> <chr>     <chr>   <chr>     
+ 1 The Crown Estate, Windsor Great Park      5400000 5636844 Free      O       South East
+ 2 Royal Botanic Gardens Kew                 1963171 1963885 Members   M       London    
+ 3 Natural History Museum (South Kensington) 1571413 4654608 Free      I       London    
+ 4 RHS Garden Wisley                         1410785 1494709 Members   O       South East
+ 5 The British Museum                        1327120 4097253 Free      I       London    
+ 6 Tate Modern                               1156037 3883160 Free      I       London    
+ 7 Somerset House                             984978 2346580 Free      M       London    
+ 8 Science Museum                             955873 2334930 Free      I       London    
+ 9 Jeskyns Community Woodland                 878626  447116 Free      O       South East
+10 V&A South Kensington                       857742 2370261 Free      I       London    
+> 
 ## Question 4
 
 _What is the admission charge for the `"National Museum of Scotland"`?_
-
+Free
 ```{r Q4}
 visitors %>% filter(attraction == "National Museum of Scotland")
 ```
@@ -94,7 +114,7 @@ visitors %>% filter(attraction == "National Museum of Scotland")
 ### Exercise d.
 
 _Which attraction had exactly 565,772 visitors in 2022?_
-
+Knowsley Safari and Knowsley Hall
 ```{r Ex_d}
 #visitors %>% filter(___ == ____)
 ```
@@ -108,6 +128,14 @@ _How many attraction had more than 1 million visitors in 2022?_
 #  filter(____) %>%
 #  count()
 ```
+visitors %>% 
+  filter(TRUE) %>%
+  count(n_2022 > 1000000)
+
+`n_2022 > 1e+06`     n
+  <lgl>            <int>
+1 FALSE              326
+2 TRUE                22
 
 ## Question 5
 
@@ -123,7 +151,7 @@ visitors %>%
     ) %>%
   count()
 ```
-
+3
 ### Exercise f.
 
 _How many attractions had between 50,000 and 100,000 visitors in 2022?_
@@ -135,6 +163,14 @@ _How many attractions had between 50,000 and 100,000 visitors in 2022?_
 #    ______ ) %>%
 #  count()
 ```
+visitors %>%
++   filter(n_2022 > 50000, n_2022 < 100000) %>%
++   count()
+
+# A tibble: 1 × 1
+      n
+  <int>
+1    50
 
 ### Exercise g.
 
@@ -145,7 +181,14 @@ _How many regions have more than 50 tourist attraction in the data set? (Hint: Y
 #  _____(region) %>%
 #  filter(______)
 ```
+visitors %>% 
++   count(region) %>%
++   filter(n > 50)
 
+# A tibble: 1 × 2
+  region       n
+  <chr>    <int>
+1 Scotland    97
 
 
 # Summarising Data
@@ -161,7 +204,9 @@ visitors %>%
     med_2022 = median(n_2022)
   )
 ```
-
+mean_2022 med_2022
+      <dbl>    <dbl>
+1   351942.  184640.
 
 ### Exercise h.
 
